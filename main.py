@@ -5,25 +5,17 @@ import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.models import Model
 
-from sacred import Experiment
-from sacred.observers import MongoObserver
-
-ex = Experiment()
-ex.observers.append(MongoObserver(url=os.getenv("KF_MONGODB_URL"), db_name=os.getenv("KF_SACRED_ID")))
-
 
 class LogPerformance(tf.keras.callbacks.Callback):
     def on_epoch_end(self, _, logs={}):
         log_performance(logs=logs)
 
 
-@ex.capture
 def log_performance(_run, logs):
     _run.log_scalar("accuracy", float(logs.get('accuracy')))
     _run.result = float(logs.get('accuracy'))
 
 
-@ex.main
 def run():
     mnist = tf.keras.datasets.mnist
 
@@ -52,4 +44,4 @@ def run():
 
 
 if __name__ == "__main__":
-    ex.run()
+    run()
