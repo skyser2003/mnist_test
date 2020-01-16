@@ -6,16 +6,6 @@ import tensorflow.keras as keras
 from tensorflow.keras.models import Model
 
 
-class LogPerformance(tf.keras.callbacks.Callback):
-    def on_epoch_end(self, _, logs={}):
-        log_performance(logs=logs)
-
-
-def log_performance(_run, logs):
-    _run.log_scalar("accuracy", float(logs.get('accuracy')))
-    _run.result = float(logs.get('accuracy'))
-
-
 def run():
     mnist = tf.keras.datasets.mnist
 
@@ -40,7 +30,7 @@ def run():
               y=y_train,
               epochs=100,
               validation_data=(x_test, y_test),
-              callbacks=[tensorboard_callback, LogPerformance()])
+              callbacks=[tensorboard_callback])
 
 
 if __name__ == "__main__":
