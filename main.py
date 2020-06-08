@@ -28,7 +28,7 @@ def run():
 
     model.fit(x=x_train,
               y=y_train,
-              epochs=100,
+              epochs=int(os.getenv("num_epoch", "100")),
               validation_data=(x_test, y_test),
               callbacks=[tensorboard_callback])
 
